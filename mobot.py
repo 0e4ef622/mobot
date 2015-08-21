@@ -23,7 +23,7 @@ def skype_event(eventstr):
 
         msgid = split[1]
         dispname = re.search("^CHATMESSAGE %s FROM_DISPNAME (.*)$" % msgid, send("GET CHATMESSAGE %s FROM_DISPNAME" % msgid)).group(1)
-        msg = re.match("^CHATMESSAGE %s BODY (.*)$" % msgid, send("GET CHATMESSAGE %s BODY" % msgid)).group(1)
+        msg = re.match("^CHATMESSAGE %s BODY (.*)$" % msgid, send("GET CHATMESSAGE %s BODY" % msgid), re.S).group(1)
         chatid = re.search("[^\s]+$", send("GET CHATMESSAGE %s CHATNAME" % msgid)).group(0)
 
         #if re.search(r'uotd\?$', msg, re.I): # temporary before learndb is created
@@ -32,11 +32,17 @@ def skype_event(eventstr):
         if msg.lower() == 'hai' or msg.lower() == 'hi':
             #send("CHATMESSAGE %s hai %s" % (chatid, dispname))
             chat(chatid, 'hai %s' % dispname)
+        elif msg == 'Ni!':
+            chat(chatid, '%s: Do you demand a shrubbery?' % dispname)
 
         else:
-            cmd, *args = msg.split()
-            if cmd in cmds.cmds:
-                cmds.cmds[cmd](chat, chatid, dispname, args)
+            #cmd, *args = msg.split()
+            m = re.match(r'^([^\s]+)\s*(.*)$', msg, re.S)
+            if m:
+                cmd = m.group(1)
+                argstr = m.group(2)
+                if cmd in cmds.cmds:
+                    cmds.cmds[cmd](chat, chatid, dispname, argstr)
         #elif re.match('!help', msg):
             #send("CHATMESSAGE %s %s: u kanno haz halpz" % (chatid, dispname))
         #    chat(chatid, '%s: u kanno haz halpz' % dispname)
@@ -80,7 +86,7 @@ def send(msg):
     print("<- ", ret)
     return ret
 
-ret = send("NAME ijs")
+ret = send("NAME mobot")
 if ret != "OK":
     raise Exception("Y U NO LEMME DO MY SHET")
 
