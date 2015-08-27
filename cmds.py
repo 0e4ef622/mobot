@@ -21,7 +21,7 @@ def bf(chat, chatid, username, argstr):
     else:
         code = argstr
         if re.search(',', code):
-            chat(chatid, '%s: You want me to support input?' % username)
+            chat(chatid, '%s: Motivate me somehow and I will add support for input' % username)
             return;
 
         f = open('/tmp/tmp.b', 'w')
@@ -40,11 +40,11 @@ def bf(chat, chatid, username, argstr):
 
 def snowman(chat, chatid, username, argstr):
     if not argstr:
-        chat(chatid, '%s: This is a Snowman interpreter. Just stick the Snowman code after the !bf' % username)
+        chat(chatid, '%s: This is a Snowman interpreter. Just stick the Snowman code after the !snowman' % username)
     else:
         code = argstr
-        if re.search('vg', code):
-            chat(chatid, '%s: You want me to support input?' % username)
+        if re.search('vg', code, re.I):
+            chat(chatid, '%s: Motivate me somehow and I will add support for input' % username)
             return;
 
         f = open('/tmp/snowman', 'w')
@@ -61,6 +61,22 @@ def snowman(chat, chatid, username, argstr):
         except subprocess.CalledProcessError as err:
             chat(chatid, '%s: %s' % (username, str(err.output, encoding='utf-8')))
 
+def dorp(chat, chatid, username, argstr):
+    chat(chatid, 'I agree')
+
+def wtf(chat, chatid, username, argstr):
+    cmd = ["wtf"]
+    arg = argstr.split()
+    cmd = cmd + arg
+    try:
+        out = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=3)
+        out = str(out, encoding='utf-8')
+        chat(chatid, '%s: %s' % (username, out.replace('\x00', '<NULL')))
+    except subprocess.TimeoutExpired:
+        chat(chatid, '%s: DOOD WHAT THE FUCK DID YOU DO‽' % username)
+    except subprocess.CalledProcessError as err:
+        chat(chatid, '%s: %s' % (username, str(err.output, encoding='utf-8')))
+
 cmds = {
         '!help': help,
         '!ping': ping,
@@ -68,5 +84,7 @@ cmds = {
         '!chess': chess,
 #       '!Ni': Ni,
         '!bf': bf,
-        '!snowman': snowman
+        '!snowman': snowman,
+        'dorp': dorp,
+        '!wtf': wtf
         }

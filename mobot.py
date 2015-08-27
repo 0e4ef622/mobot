@@ -26,44 +26,19 @@ def skype_event(eventstr):
         msg = re.match("^CHATMESSAGE %s BODY (.*)$" % msgid, send("GET CHATMESSAGE %s BODY" % msgid), re.S).group(1)
         chatid = re.search("[^\s]+$", send("GET CHATMESSAGE %s CHATNAME" % msgid)).group(0)
 
-        #if re.search(r'uotd\?$', msg, re.I): # temporary before learndb is created
-        #    send("CHATMESSAGE %s %s: UOTD: Uzzol Of The Day" % (chatid, dispname))
-
         if msg.lower() == 'hai' or msg.lower() == 'hi':
-            #send("CHATMESSAGE %s hai %s" % (chatid, dispname))
             chat(chatid, 'hai %s' % dispname)
-        elif msg == 'Ni!':
+        elif msg[0:4] == 'Ni!':
             chat(chatid, '%s: Do you demand a shrubbery?' % dispname)
 
         else:
-            #cmd, *args = msg.split()
             m = re.match(r'^([^\s]+)\s*(.*)$', msg, re.S)
+
             if m:
-                cmd = m.group(1)
+                cmd = m.group(1).lower()
                 argstr = m.group(2)
                 if cmd in cmds.cmds:
                     cmds.cmds[cmd](chat, chatid, dispname, argstr)
-        #elif re.match('!help', msg):
-            #send("CHATMESSAGE %s %s: u kanno haz halpz" % (chatid, dispname))
-        #    chat(chatid, '%s: u kanno haz halpz' % dispname)
-
-        #elif re.match('!ping', msg):
-            #send("CHATMESSAGE %s %s: yes i exist" % (chatid, dispname))
-        #    chat(chatid, '%s: yes i exist' % dispname)
-
-        #elif re.match('!fortune', msg):
-            #send("CHATMESSAGE %s %s: %s" % (chatid, dispname, str(subprocess.check_output('fortune'), encoding='utf-8')))
-        #    chat(chatid, '%s: %s' % (dispname, str(subprocess.check_output('fortune'), encoding='utf-8')))
-
-        #elif re.match('!chess', msg):
-            #send("CHATMESSAGE %s %s: Patience, young grasshopper" % (chatid, dispname))
-        #    chat(chatid, '%s: There is no chess yet' % dispname)
-
-        #elif msg == 'Ni!':
-        #    chat(chatid, '%s: Do you demand a shrubbery?' % dispname)
-
-        #elif re.match('!bf', msg):
-        #    chat(chatid, '%s: You want a bf interpreter?' % dispname)
 
 dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
