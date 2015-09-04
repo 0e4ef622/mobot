@@ -92,5 +92,6 @@ cmds = {
         '!bf': bf,
         '!snowman': snowman,
         'dorp': dorp,
+        'd0rp': dorp,
         '!wtf': wtf
         }

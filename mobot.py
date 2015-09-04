@@ -13,16 +13,26 @@ import cmds
 
 #chatid = "#abemaster446/$9c20ed649fd06f85" # (bot testing chat thing)
 
+prevmsgid = ""
+
 def chat(chatid, msg):
-    send("CHATMESSAGE %s %s" % (chatid, msg))
+    global prevmsgid
+    response = send("CHATMESSAGE %s %s" % (chatid, msg))
+    msgid = response.split(' ')[1]
+    prevmsgid = msgid
 
 def skype_event(eventstr):
+    global prevmsgid
     split = re.split(r'\s', eventstr)
     evtype = split[0]
-    if split[0] == "CHATMESSAGE" and (split[3] == "RECEIVED" or split[3] == "SENDING"):
+    if evtype == "CHATMESSAGE" and (split[3] == "RECEIVED" or split[3] == "SENDING"):
 
         msgid = split[1]
-        dispname = re.search("^CHATMESSAGE %s FROM_DISPNAME (.*)$" % msgid, send("GET CHATMESSAGE %s FROM_DISPNAME" % msgid)).group(1)
+        if msgid == prevmsgid:
+            return
+
+        dispname = re.match("^CHATMESSAGE %s FROM_DISPNAME (.*)$" % msgid, send("GET CHATMESSAGE %s FROM_DISPNAME" % msgid)).group(1)
+        username = re.match("^CHATMESSAGE %s FROM_HANDLE (.*)$" % msgid, send("GET CHATMESSAGE %s FROM_HANDLE" % msgid)).group(1)
         msg = re.match("^CHATMESSAGE %s BODY (.*)$" % msgid, send("GET CHATMESSAGE %s BODY" % msgid), re.S).group(1)
         chatid = re.search("[^\s]+$", send("GET CHATMESSAGE %s CHATNAME" % msgid)).group(0)
 
@@ -30,6 +40,8 @@ def skype_event(eventstr):
             chat(chatid, 'hai %s' % dispname)
         elif msg[0:4] == 'Ni!':
             chat(chatid, '%s: Do you demand a shrubbery?' % dispname)
+        elif msg == 'an ship':
+            chat(chatid, 'an ship')
 
         else:
             m = re.match(r'^([^\s]+)\s*(.*)$', msg, re.S)
