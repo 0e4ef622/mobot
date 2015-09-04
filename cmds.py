@@ -3,6 +3,9 @@ import re
 def help(chat, chatid, username, argstr):
     chat(chatid, '%s: u kanno haz halpz' % username)
 
+def halp(chat, chatid, username, argstr):
+    chat(chatid, '%s: %s' % (username, ", ".join(cmds.keys())))
+
 def ping(chat, chatid, username, argstr):
     chat(chatid, '%s: yes i exist' % username)
 
@@ -43,7 +46,7 @@ def snowman(chat, chatid, username, argstr):
         chat(chatid, '%s: This is a Snowman interpreter. Just stick the Snowman code after the !snowman' % username)
     else:
         code = argstr
-        if re.search('vg', code, re.I):
+        if re.search('v\s*g', code, re.I):
             chat(chatid, '%s: Motivate me somehow and I will add support for input' % username)
             return;
 
@@ -79,6 +82,9 @@ def wtf(chat, chatid, username, argstr):
 
 cmds = {
         '!help': help,
+        '!halp': halp,
+        '!halpz': halp,
+        '!halps': halp,
         '!ping': ping,
         '!fortune': fortune,
         '!chess': chess,

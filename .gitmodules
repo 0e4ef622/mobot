@@ -1,0 +1,3 @@
+[submodule "snowman-lang"]
+	path = snowman-lang
+	url = https://github.com/keyboardfire/snowman-lang.git
