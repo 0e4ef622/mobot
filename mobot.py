@@ -44,7 +44,7 @@ def skype_event(eventstr):
             chat(chatid, 'an ship')
 
         else:
-            m = re.match(r'^([^\s]+)\s*(.*)$', msg, re.S)
+            m = re.match(r'^([^\s]+)\s*(.*)?$', msg, re.S)
 
             if m:
                 cmd = m.group(1).lower()
