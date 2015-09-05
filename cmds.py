@@ -13,7 +13,7 @@ def fortune(chat, chatid, dispname, argstr):
     chat(chatid, '%s:\n%s' % (dispname, str(subprocess.check_output('fortune'),encoding='utf-8')))
 
 def chess(chat, chatid, dispname, argstr):
-    chat(chatid, '%s: There is no chess yet' % dispname)
+    chat(chatid, '%s: Motivate me and I just may add chess' % dispname)
 
 #def Ni(chat, chatid, dispname):
 #    chat(chatid, '%s: No, it\'s Ni!' % dispname)
@@ -26,7 +26,9 @@ def bf(chat, chatid, dispname, argstr):
 
 Here be example with input
 
-!bf -,+[-[>>++++[>++++++++<-]<+<-[>+>+>-[>>>]<[[>+<-]>>+>]<<<<<-]]>>>[-]+>--[-[<->+++[-]]]<[++++++++++++<[>-[>+>>]>[+[<+>-]>+>>]<<<<<-]>>[<+>-]>[-[-<<[-]>>]<<[<<->>-]>>]<<[<<+>>-]]<[-]<.[-]<-,+]
+!bf -,+[-[>>++++[>++++++++<-]<+<-[>+>+>-[>>>]<[[>+<-]>>+>]<<<<<-]]>>
+>[-]+>--[-[<->+++[-]]]<[++++++++++++<[>-[>+>>]>[+[<+>-]>+>>]<<<<<-]>
+>[<+>-]>[-[-<<[-]>>]<<[<<->>-]>>]<<[<<+>>-]]<[-]<.[-]<-,+]
 __INPUT__
 stuff to rot13""" % dispname)
     else:
