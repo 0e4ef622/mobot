@@ -13,7 +13,7 @@ def fortune(chat, chatid, dispname, argstr):
     chat(chatid, '%s:\n%s' % (dispname, str(subprocess.check_output('fortune'),encoding='utf-8')))
 
 def chess(chat, chatid, dispname, argstr):
-    chat(chatid, '%s: Motivate me and I just may add chess' % dispname)
+    chat(chatid, '%s: Give me 3 cookies' % dispname)
 
 #def Ni(chat, chatid, dispname):
 #    chat(chatid, '%s: No, it\'s Ni!' % dispname)
@@ -105,7 +105,7 @@ def wtf(chat, chatid, dispname, argstr):
     try:
         out = subprocess.check_output(cmd, stderr=subprocess.STDOUT, timeout=3)
         out = str(out, encoding='utf-8')
-        chat(chatid, '%s: %s' % (dispname, out.replace('\x00', '<NULL')))
+        chat(chatid, '%s: %s' % (dispname, out.replace('\x00', '<NULL>')))
     except subprocess.TimeoutExpired:
         chat(chatid, '%s: DOOD WHAT THE FUCK DID YOU DO‽' % dispname)
     except subprocess.CalledProcessError as err:
