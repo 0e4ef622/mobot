@@ -1,3 +1,5 @@
+import urllib.request
+import json
 import subprocess
 import re
 def help(chat, chatid, dispname, argstr):
@@ -13,7 +15,7 @@ def fortune(chat, chatid, dispname, argstr):
     chat(chatid, '%s:\n%s' % (dispname, str(subprocess.check_output('fortune'),encoding='utf-8')))
 
 def chess(chat, chatid, dispname, argstr):
-    chat(chatid, '%s: Give me 3 cookies' % dispname)
+    chat(chatid, '%s: Give me 3 cookies or do it yourself' % dispname)
 
 #def Ni(chat, chatid, dispname):
 #    chat(chatid, '%s: No, it\'s Ni!' % dispname)
@@ -98,6 +100,9 @@ this be input""" % dispname)
 def dorp(chat, chatid, dispname, argstr):
     chat(chatid, 'I agree')
 
+def qbec(chat, chatid, dispname, argstr):
+    chat(chatid, 'V nterr')
+
 def wtf(chat, chatid, dispname, argstr):
     cmd = ["wtf"]
     arg = argstr.split()
@@ -110,6 +115,15 @@ def wtf(chat, chatid, dispname, argstr):
         chat(chatid, '%s: DOOD WHAT THE FUCK DID YOU DO‽' % dispname)
     except subprocess.CalledProcessError as err:
         chat(chatid, '%s: %s' % (dispname, str(err.output, encoding='utf-8')))
+
+def urban(chat, chatid, dispname, argstr):
+    response = urllib.request.urlopen("http://api.urbandictionary.com/v0/define?term=%s" % argstr)
+    if response.status != 200 and response.status != 304:
+        chat(chatid, '%s: Server returned not OK status %d %s' % (dispname, response.status, response.reason))
+    jsondata = response.read()
+    response.close()
+    data = json.loads(str(jsondata, encoding='utf-8'))
+    chat(chatid, '%s: %s' % (dispname, data['list'][0]['definition']))
 
 cmds = {
         '!help': help,
@@ -124,5 +138,7 @@ cmds = {
         '!snowman': snowman,
         'dorp': dorp,
         'd0rp': dorp,
-        '!wtf': wtf
+        'qbec': qbec,
+        '!wtf': wtf,
+        '!urban': urban
         }
