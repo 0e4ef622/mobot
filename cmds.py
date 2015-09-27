@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.parse
 import json
 import subprocess
 import re
@@ -117,13 +118,16 @@ def wtf(chat, chatid, dispname, argstr):
         chat(chatid, '%s: %s' % (dispname, str(err.output, encoding='utf-8')))
 
 def urban(chat, chatid, dispname, argstr):
-    response = urllib.request.urlopen("http://api.urbandictionary.com/v0/define?term=%s" % argstr)
+    response = urllib.request.urlopen("http://api.urbandictionary.com/v0/define?term=%s" % urllib.parse.quote_plus(argstr))
     if response.status != 200 and response.status != 304:
         chat(chatid, '%s: Server returned not OK status %d %s' % (dispname, response.status, response.reason))
     jsondata = response.read()
     response.close()
     data = json.loads(str(jsondata, encoding='utf-8'))
-    chat(chatid, '%s: %s' % (dispname, data['list'][0]['definition']))
+    if data['result_type'] == 'no_results':
+        chat(chatid, "%s: No definition found for `%s'" % (dispname, argstr))
+    else:
+        chat(chatid, '%s: %s' % (dispname, data['list'][0]['definition']))
 
 cmds = {
         '!help': help,
