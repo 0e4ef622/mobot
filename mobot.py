@@ -36,6 +36,9 @@ def skype_event(eventstr):
         msg = re.match("^CHATMESSAGE %s BODY (.*)$" % msgid, send("GET CHATMESSAGE %s BODY" % msgid), re.S).group(1)
         chatid = re.search("[^\s]+$", send("GET CHATMESSAGE %s CHATNAME" % msgid)).group(0)
 
+        if msg == 'an ship':
+            return
+
         if msg.lower() == 'hai' or msg.lower() == 'hi':
             chat(chatid, 'hai %s' % dispname)
         elif msg[0:4] == 'Ni!':
