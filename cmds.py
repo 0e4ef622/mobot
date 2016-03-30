@@ -23,7 +23,7 @@ def chess(chat, chatid, dispname, argstr):
 
 def bf(chat, chatid, dispname, argstr):
     if not argstr:
-        chat(chatid, """%s: This is a BF interpreter. Here be example:
+        chat(chatid, """%s: This is an BF interpreter. Here be example:
 
 !bf ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
 
@@ -62,7 +62,7 @@ stuff to rot13""" % dispname)
 
 def snowman(chat, chatid, dispname, argstr):
     if not argstr:
-        chat(chatid, """%s: This is a Snowman interpreter. Here be example:
+        chat(chatid, """%s: This is an Snowman interpreter (https://github.com/keyboardfire/snowman-lang). Here be example:
 
 !snowman ("Hello, World!"sp
 
